@@ -1,4 +1,55 @@
-<form onsubmit="location.href='/proxy/'+document.getElementById('u').value;return false">
-  <input id="u" placeholder="https://example.com" size="40">
-  <button>Go</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MyProxy</title>
+<style>
+:root{--bg:#0b0d17;--card:rgba(255,255,255,.06);--bd:rgba(255,255,255,.12);--tx:#eef0ff;--mu:#9aa0c3;--ac:#7c5cff;--ac2:#00d4ff}
+@media (prefers-color-scheme:light){:root{--bg:#f3f4fb;--card:rgba(255,255,255,.8);--bd:rgba(0,0,0,.1);--tx:#161830;--mu:#5d6285}}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--tx);background:radial-gradient(600px 400px at 15% 10%,rgba(124,92,255,.35),transparent),radial-gradient(500px 400px at 85% 90%,rgba(0,212,255,.25),transparent),var(--bg)}
+.card{width:100%;max-width:560px;padding:36px 28px;border-radius:24px;background:var(--card);border:1px solid var(--bd);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);text-align:center}
+h1{margin:0 0 6px;font-size:2rem;background:linear-gradient(90deg,var(--ac),var(--ac2));-webkit-background-clip:text;background-clip:text;color:transparent}
+p{margin:0 0 24px;color:var(--mu)}
+form{display:flex;gap:8px}
+input{flex:1;min-width:0;padding:14px 16px;border-radius:14px;border:1px solid var(--bd);background:rgba(127,127,127,.12);color:var(--tx);font-size:1rem;outline:none}
+input:focus{border-color:var(--ac)}
+button{padding:0 22px;border:0;border-radius:14px;font-weight:600;font-size:1rem;color:#fff;cursor:pointer;background:linear-gradient(135deg,var(--ac),var(--ac2))}
+.q{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:22px}
+.q a{padding:8px 14px;border-radius:999px;border:1px solid var(--bd);color:var(--tx);text-decoration:none;font-size:.9rem}
+.q a:hover{border-color:var(--ac)}
+small{display:block;margin-top:22px;color:var(--mu)}
+code{color:var(--ac2)}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>MyProxy</h1>
+  <p>URL ya search likho, aur browse karo</p>
+  <form id="f">
+    <input id="u" placeholder="youtube.com ya kuch search karo" autocomplete="off" autofocus>
+    <button>Go</button>
+  </form>
+  <div class="q">
+    <a href="/youtube.com/">YouTube</a>
+    <a href="/wikipedia.org/">Wikipedia</a>
+    <a href="/duckduckgo.com/">DuckDuckGo</a>
+    <a href="/github.com/">GitHub</a>
+  </div>
+  <small>Direct bhi chalega: <code>/youtube.com/</code> ya <code>/https://youtube.com/</code></small>
+</div>
+<script>
+document.getElementById('f').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var v = document.getElementById('u').value.trim();
+  if (!v) return;
+  var url;
+  if (/^https?:\/\//i.test(v)) url = v;
+  else if (/^([a-z0-9-]+\.)+[a-z]{2,}(:\d+)?([\/?#].*)?$/i.test(v)) url = 'https://' + v;
+  else url = 'https://duckduckgo.com/?q=' + encodeURIComponent(v);
+  location.href = '/proxy/' + url;
+});
+</script>
+</body>
+</html>
